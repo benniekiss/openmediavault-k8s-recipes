@@ -1,0 +1,14 @@
+name: Garage
+description: S3-compatible object store for small self-hosted geo-distributed deployments.
+section: net
+architecture:
+  - amd64
+  - arm64
+url: https://garagehq.deuxfleurs.fr/
+recipeVersion: "1.0.0"
+appVersion: latest
+maintainers:
+  - Volker Theile <volker.theile@openmediavault.org>
+sources:
+  - https://garagehq.deuxfleurs.fr/
+  - https://git.deuxfleurs.fr/Deuxfleurs/garage/src/branch/main-v1/script/helm
