@@ -11,4 +11,5 @@ maintainers:
   - Volker Theile <volker.theile@openmediavault.org>
 sources:
   - https://garagehq.deuxfleurs.fr/
-  - https://git.deuxfleurs.fr/Deuxfleurs/garage/src/branch/main-v1/script/helm
+  - https://git.deuxfleurs.fr/Deuxfleurs/garage
+  - https://git.deuxfleurs.fr/Deuxfleurs/garage/src/branch/main-v2/script/helm

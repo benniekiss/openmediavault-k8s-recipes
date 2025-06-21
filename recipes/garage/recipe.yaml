@@ -1,0 +1,65 @@
+# The app can be reached at https://garage.<FQDN>:8443
+# Change the following variables to adapt the recipe to your needs.
+{% set runAsUser = 'nobody' %}
+{% set runAsGroup = 'users' %}
+# Insert the name of the shared folder you want to use. Make sure the
+# configured UID/GID the container is running with has access to that
+# directory.
+{% set dataSharedFolderName = '<MODIFY>' %}
+# !!! Only modify the following manifest if you need to make custom changes. !!!
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: garage-app
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: garage
+  namespace: garage-app
+  labels:
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/name: garage
+spec:
+  repo: https://utkuozdemir.org/helm-charts
+  chart: garage
+  targetNamespace: garage-app
+  valuesContent: |-
+    image:
+      tag: "latest"
+    securityContext:
+      runAsNonRoot: true
+      # Specifies the UID for the process running in the container.
+      runAsUser: {{ uid(runAsUser) }}
+      # Specifies the GID for the process running in the container.
+      # Defaults to `users`.
+      runAsGroup: {{ gid(runAsGroup) }}
+    rootDir:
+      type: hostPath
+      hostPath:
+        # Insert the name of the shared folder you want to use.
+        # Make sure the configured UID/GID the container is running
+        # with has access to that directory.
+        path: {{ sharedfolder_path(rootSharedFolderName) }}
+    config:
+      baseURL: /
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: garage-websecure
+  namespace: garage-app
+  labels:
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/name: garage
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`garage.{{ fqdn() }}`)
+      kind: Rule
+      services:
+        - name: garage
+          port: 80
+  tls: {}
