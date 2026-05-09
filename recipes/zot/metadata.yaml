@@ -1,0 +1,14 @@
+name: zot
+description: A scale-out production-ready vendor-neutral OCI-native container image/artifact registry.
+section: net
+architecture:
+  - amd64
+  - arm64
+url: https://zotregistry.dev
+recipeVersion: "1.0.0"
+appVersion: latest
+maintainers:
+  - Volker Theile <volker.theile@openmediavault.org>
+sources:
+  - https://github.com/project-zot/zot
+  - https://zotregistry.dev/v2.1.16/user-guides/user-guide-datapath/
