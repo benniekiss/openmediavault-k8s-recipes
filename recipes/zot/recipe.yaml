@@ -8,6 +8,8 @@
 # configured UID/GID the container is running with has access to that
 # directory.
 {% set registrySharedFolderName = '<MODIFY>' %}
+{% set sizeRegistryAssets = '30Gi' %}
+
 # !!! Only modify the following manifest if you need to make custom changes. !!!
 ---
 apiVersion: v1
@@ -51,7 +53,7 @@ spec:
       # Volume access mode, if using more than one replica we need
       accessModes: ["ReadWriteOnce"]
       # Size of the volume requested
-      storage: 30Gi
+      storage: {{ sizeRegistryAssets }}
       # Name of the storage class to use if it is different than the default one
       storageClassName: shared-folder
     configFiles:
@@ -71,7 +73,7 @@ metadata:
 spec:
   storageClassName: shared-folder
   capacity:
-    storage: 30Gi
+    storage: {{ sizeRegistryAssets }}
   accessModes:
     - ReadWriteOnce
   hostPath:
@@ -94,7 +96,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 30Gi
+      storage: {{ sizeRegistryAssets }}
   volumeName: zot-registry-data
 ---
 apiVersion: traefik.io/v1alpha1
